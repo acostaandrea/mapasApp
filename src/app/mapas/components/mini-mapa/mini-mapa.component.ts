@@ -11,8 +11,6 @@ import * as mapboxgl from 'mapbox-gl'
       height: 150px;
       margin: 0px
     }
-
-
   `
   ]
 })
@@ -21,7 +19,7 @@ export class MiniMapaComponent implements AfterViewInit {
   @Input() lngLat: [number, number] = [0,0]
 
   @ViewChild('mapa') divMapa!: ElementRef
-  
+
   constructor() { }
 
   ngAfterViewInit(): void {

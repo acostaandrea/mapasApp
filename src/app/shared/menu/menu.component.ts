@@ -12,7 +12,8 @@ interface MenuItem{
   styles: [
     `
     li{
-      cursor: pointer
+      cursor: pointer;
+      
     }
     `
   ]

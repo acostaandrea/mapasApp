@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl'
+import {Map} from 'mapbox-gl'
 
 @Component({
   selector: 'app-zoom-range',
@@ -13,11 +13,12 @@ import * as mapboxgl from 'mapbox-gl'
     .row{
       background-color: white;
       position: fixed;
-      bottom: 50px;
-      left: 50px;
+      bottom: 20px;
+      left: 20px;
       padding: 10px;
-      border-radius: 5px;
+      border-radius: 10px;
       width:400px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 
       z-index: 999
     }
@@ -28,15 +29,15 @@ import * as mapboxgl from 'mapbox-gl'
 export class ZoomRangeComponent implements AfterViewInit, OnDestroy{
 
   @ViewChild('mapa') divMapa!: ElementRef //por la referencia local
-  
-  mapa!: mapboxgl.Map;
+
+  public mapa!: Map;
 
   zoomLevel: number = 10
   center: [number, number] = [ -68.52981937385819 , -31.53845214276301] //primero longitud y desp latitud, al reves que google maps
 
   constructor() { }
- 
- 
+
+
   ngOnDestroy(): void {
     this.mapa.off('zoom', () => {} )
     this.mapa.off('zoomend', () => {} )
@@ -45,24 +46,15 @@ export class ZoomRangeComponent implements AfterViewInit, OnDestroy{
 
   ngAfterViewInit(): void {
 
-    this.mapa = new mapboxgl.Map({
+    this.mapa = new Map({
       container: this.divMapa.nativeElement, //id en el html
       style: 'mapbox://styles/mapbox/streets-v11',
-      center:  this.center,                
+      center:  this.center,
       zoom: this.zoomLevel
     });
 
 
-    this.mapa.on('zoom', (ev)=>{
-      
-      this.zoomLevel = this.mapa.getZoom()
-    })
-    this.mapa.on('zoomend', (ev)=>{
-      
-      if(this.mapa.getZoom() > 18){
-        this.mapa.zoomTo(18)
-      }
-    });
+   this.mapListeners()
 
     //movimiento del mapa
     this.mapa.on('move', (event)=>{
@@ -71,21 +63,27 @@ export class ZoomRangeComponent implements AfterViewInit, OnDestroy{
       this.center = [lng, lat]
     })
 
-    
-
   }
     zoomIn(){
       this.mapa.zoomIn();
-
-      
     }
     zoomOut(){
       this.mapa.zoomOut();
-      
     }
-
     zoomCambio(valor: string){
       this.mapa.zoomTo(Number(valor))
     }
-    
+
+    mapListeners(){
+      if(!this.mapa) throw "No hay mapa"
+      this.mapa.on('zoom', (ev)=>{
+        this.zoomLevel = this.mapa.getZoom()
+      })
+      this.mapa.on('zoomend', (ev)=>{
+
+        if(this.mapa.getZoom() > 18){
+          this.mapa.zoomTo(18)
+        }
+      });
+    }
 }
