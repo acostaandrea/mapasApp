@@ -9,10 +9,14 @@ const routes: Routes = [
     loadChildren: () => import('./mapas/mapas.module').then(m=> m.MapasModule)
   },
   {
+    path:'alone',
+    loadComponent: () => import('./alone/pages/alone-page/alone-page.component').then(m=> m.AlonePageComponent)
+  },
+  {
     path: '**',
     redirectTo: 'mapas'
   }
-  
+
 ];
 
 @NgModule({

@@ -3,16 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './shared/menu/menu.component';
+
+import { AlonePageComponent } from './alone/pages/alone-page/alone-page.component';
+import { MenuComponent } from './alone/components/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent
+
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MenuComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
